@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#calculator {
+    width: 70vw;
+    position: absolute;
+    top: 10vh;
+    left: 15vw;
+    right: 15vw;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(50, 64, 85);
+    padding: 1rem;
+}
+
+#screen-container {
+    height: 6rem;
+    background-color: rgb(136, 127, 127);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 1rem 1rem 0 1rem;
+}
+
+#screen-container * {
+    font-size: 1.5rem;
+}
+
+#previous-input-or-result {
+    padding-right: 5px;
+}
+
+#curr-input {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+#input-or-result {
+    display: flex;
+    margin: auto;
+}
+
+#ticking-input {
+    display: flex;
+    margin: auto;
+    font-weight: bold;
+    animation: ticking-input infinite 650ms linear;
+}
+
+#input-container {
+    display: flex;
+    
+}
+
+#btn-input-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
+    width: 100%;
+}
+
+#btn-operations-container {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+@keyframes ticking-input {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
