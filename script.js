@@ -24,6 +24,32 @@ const allowRightParenthesis = () => {
   return leftParenthesisCount > rightParenthesisCount ? true : false
 }
 
+const allowPercentage = () => {
+  let currInputValue = currInputs[currInputs.length-1];
+  if(currInputs.length == 0) { //if nothing inside currInputs we cant insert '%'
+    return;
+  } else {
+    if(currInputValue === '+' || currInputValue === '-' || currInputValue === '×' || currInputValue === '÷' || currInputValue === '%') {
+      if(currInputs[currInputs.length-2] !== '%') {
+        //make sure the value before the current value is also not a percentage, coz otherwise we can add multiple percentage next to each other
+        currInputs.pop();
+        inputOrResult.innerHTML = currInputs.join('');
+        return true;
+      }
+    } else return true;
+  }
+  
+}
+
+//check if '.' is allowed to be clicked
+const allowComma = () => {
+  let currInputValue = currInputs[currInputs.length-1];
+  if(currInputs.length == 0) {
+    return;
+  }
+  return currInputValue === '+' || currInputValue === '-' || currInputValue === '×' || currInputValue === '÷' || currInputValue === '%' ? false : true;
+}
+
 //inputs button clicked
 for(const input of btnInputs) {
   input.addEventListener('click', () => {
@@ -31,6 +57,16 @@ for(const input of btnInputs) {
     if(input.innerText === ')') {
       //check if the ')' is allowed to be clicked
       const allowance = allowRightParenthesis();
+      if(!allowance) return;
+    }
+    //check if the button clicked is '%'
+    if(input.innerText === '%') {
+      const allowance = allowPercentage();
+      if(!allowance) return;
+    }
+    //check if the button clicked is '.'
+    if(input.innerText === '.') {
+      const allowance = allowComma();
       if(!allowance) return;
     }
     inputOrResult.innerHTML += input.innerText; //replace the view
@@ -48,7 +84,6 @@ const allowOperationInput = (operationInput) => {
     } else return true;
   } else {
     //condition when there is already a value inside the currInputs
-    console.log('masuk');
     let currInputValue = currInputs[currInputs.length-1];
     console.log(currInputValue);
     console.log(currInputs.length-1);
@@ -95,8 +130,30 @@ deleteBtn.addEventListener('click', () => {
 })
 
 equalBtn.addEventListener('click', () => {
+  // Join the inputs into a string expression
+  let expression = currInputs.join('');
+  console.log(`expression: ${expression}`);
+  
+  // Replace the custom operators with standard JavaScript operators
+  expression = expression.replace(/×/g, '*').replace(/÷/g, '/');
 
-})
+  //use try & catch so the program won't be error if the calculation failed
+  try {
+    const result = eval(expression); //eval is a js method used to calculate the result of a math expression stored in a string datatype
+    
+    // Display the result in the calculator screen
+    inputOrResult.innerHTML = result;
+    
+    //store the result inside currInputs (need further works to continue the result from the prev result)
+    currInputs = [result.toString()];
+    
+  } catch (error) {
+    //if error
+    inputOrResult.innerHTML = 'Error';
+    currInputs = [];
+  }
+});
+
 
 
 
